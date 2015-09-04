@@ -29,12 +29,15 @@ $ = {
 
     xhr.onload = function ( e ) {
      if ( xhr.readyState === 4 ) {
-       if ( xhr.status === 200 ) {
-          console.log( xhr.responseText );
+       if ( xhr.status >= 200 && xhr.status < 300 ) {
+          console.log("responseText:" + xhr.responseText );
+  
         } else {
          console.error( xhr.statusText );
+        
         }
       }
+
     };
     xhr.open(options.method,options.url,options.async);
 
@@ -44,29 +47,30 @@ $ = {
     } else {
       xhr.send();
     }
-    // return { 
-    //   ajax:ajax
-    // }
+     
   },
 
   get : function(params){
-    $.ajax({method: "GET", url: params.url, async: true});
-    params.fn("Got reposnse");
+    var xhr = $.ajax({method: "GET", url: params.url, async: true});
+      params.fn(xhr);
     //How to get anything from ajax itself?
   },
 
   post: function(params){
-    $.ajax({method: "POST", url: params.url, async: true, data: params.data});
-    params.fn("Sent request");
+    $.ajax({method: "POST", 
+            url: params.url, 
+            async: true, 
+            data: params.data});
+      params.fn("Sent request");
   }
 }
 
-//$.ajax({method: "GET", url: "http://reqr.es/api/users", async: true})
+$.ajax({method: "GET", url: "http://reqr.es/api/users", async: true})
 
-// $.get({url: "http://reqr.es/api/users/", fn: function(data){
-//     alert( data )
-//   }
-// })
+$.get({url: "http://reqr.es/api/users/", fn: function(data){
+    alert( data )
+  }
+})
 
 $.post({url: "http://reqr.es/api/users",
        fn: function(data){alert( data )},
