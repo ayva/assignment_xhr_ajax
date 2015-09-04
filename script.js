@@ -1,42 +1,78 @@
-var xhr = new XMLHttpRequest();
-xhr.addEventListener( "load", function(){
-    console.log( this.responseText )
-});
-xhr.open("GET", "http://reqr.es/api/users/50", true);
-xhr.send();
+// var xhr = new XMLHttpRequest();
+// xhr.addEventListener( "load", function(){
+//     console.log( this.responseText )
+// });
+// xhr.open("GET", "http://reqr.es/api/users/50", true);
+// xhr.send();
 
 // var xhr = new XMLHttpRequest();
 // xhr.addEventListener( "load", function(){
 //     console.log( this.responseText )
 // });
-// xhr.open("POST", "http://reqr.es/api/register", true);
-// xhr.send("email=foo");
+// xhr.open("POST", "http://reqr.es/api/users", true);
+// xhr.send("name=Marta&job=Nurse");
 
 
 $ = {
-  ajax: function(arg){
-    var options = { async: ,
-                    complete: function(){},
-                    data: {},
-                    error: function(){},
-                    headers: {},
-                    method: "",               // (string) Note: type is an alias for this
-                    success: function(){},
-                    url: ""
+  ajax : function(arg){
+    var options = { async: arg.async || false,
+                    complete: arg.complete,
+                    data: arg.data || "Default",
+                    error: arg.error,
+                    headers: arg.headers,
+                    method: arg.method || "GET",               // (string) Note: type is an alias for this
+                    success: arg.success,
+                    url: arg.url,
                   };
-  }
+    
+    var xhr = new XMLHttpRequest();
 
-  var xhr = XMLHttpRequest();
-
-  xhr.onload = function ( e ) {
-   if ( xhr.readyState === 4 ) {
-     if ( xhr.status === 200 ) {
-        console.log( xhr.responseText );
-      } else {
-       console.error( xhr.statusText );
+    xhr.onload = function ( e ) {
+     if ( xhr.readyState === 4 ) {
+       if ( xhr.status === 200 ) {
+          console.log( xhr.responseText );
+        } else {
+         console.error( xhr.statusText );
+        }
       }
+    };
+    xhr.open(options.method,options.url,options.async);
+
+    if (options.method === "POST"){
+      console.log(options.data);
+      xhr.send(options.data);
+    } else {
+      xhr.send();
     }
-  };
-  xhr.open(options.method,options.url,options.async)
-  xhr.send();
+    // return { 
+    //   ajax:ajax
+    // }
+  },
+
+  get : function(params){
+    $.ajax({method: "GET", url: params.url, async: true});
+    params.fn("Got reposnse");
+    //How to get anything from ajax itself?
+  },
+
+  post: function(params){
+    $.ajax({method: "POST", url: params.url, async: true, data: params.data});
+    params.fn("Sent request");
+  }
 }
+
+//$.ajax({method: "GET", url: "http://reqr.es/api/users", async: true})
+
+// $.get({url: "http://reqr.es/api/users/", fn: function(data){
+//     alert( data )
+//   }
+// })
+
+$.post({url: "http://reqr.es/api/users",
+       fn: function(data){alert( data )},
+      data: "name=Marta&job=Nurse"}
+)
+
+
+
+
