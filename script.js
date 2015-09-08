@@ -1,17 +1,3 @@
-// var xhr = new XMLHttpRequest();
-// xhr.addEventListener( "load", function(){
-//     console.log( this.responseText )
-// });
-// xhr.open("GET", "http://reqr.es/api/users/50", true);
-// xhr.send();
-
-// var xhr = new XMLHttpRequest();
-// xhr.addEventListener( "load", function(){
-//     console.log( this.responseText )
-// });
-// xhr.open("POST", "http://reqr.es/api/users", true);
-// xhr.send("name=Marta&job=Nurse");
-
 
 $ = {
   ajax : function(arg){
@@ -33,7 +19,7 @@ $ = {
           console.log("responseText:" + xhr.responseText );
   
         } else {
-         console.error( xhr.statusText );
+          console.error( xhr.statusText );
         
         }
       }
@@ -47,12 +33,12 @@ $ = {
     } else {
       xhr.send();
     }
-     
+    
   },
 
   get : function(params){
-    var xhr = $.ajax({method: "GET", url: params.url, async: true});
-      params.fn(xhr);
+    $.ajax({method: "GET", url: params.url, async: true});
+      params.fn("Anything");
     //How to get anything from ajax itself?
   },
 
@@ -61,7 +47,7 @@ $ = {
             url: params.url, 
             async: true, 
             data: params.data});
-      params.fn("Sent request");
+      params.fn(xhr.responseText);
   }
 }
 
@@ -73,10 +59,9 @@ $.get({url: "http://reqr.es/api/users/", fn: function(data){
 })
 
 $.post({url: "http://reqr.es/api/users",
-       fn: function(data){alert( data )},
+       fn: function(xhr){alert( xhr )},
       data: "name=Marta&job=Nurse"}
 )
 
-
-
+$.ajax(url, function(foo){foo})
 
